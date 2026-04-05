@@ -34,10 +34,22 @@ export default function LoginPage() {
     return (
       <main className="min-h-screen flex items-center justify-center px-4">
         <div className="max-w-sm w-full text-center space-y-3">
-          <div className="text-4xl">📬</div>
-          <h1 className="text-xl font-semibold">Check your email</h1>
-          <p className="text-gray-500 text-sm">
-            We sent a magic link to <strong>{email}</strong>. Tap it to sign in.
+          <div
+            className="w-12 h-12 rounded-full mx-auto flex items-center justify-center"
+            style={{ background: 'var(--accent-pale)' }}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M2.5 10.5L7.5 15.5L17.5 5.5" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <h1
+            className="text-xl"
+            style={{ fontFamily: 'var(--font-young-serif)', color: 'var(--text)' }}
+          >
+            Check your email
+          </h1>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+            We sent a magic link to <strong style={{ color: 'var(--text-mid)' }}>{email}</strong>. Tap it to sign in.
           </p>
         </div>
       </main>
@@ -48,8 +60,13 @@ export default function LoginPage() {
     <main className="min-h-screen flex items-center justify-center px-4">
       <div className="max-w-sm w-full space-y-6">
         <div className="text-center space-y-1">
-          <h1 className="text-2xl font-bold">Sign in to Pakka</h1>
-          <p className="text-gray-500 text-sm">We&apos;ll email you a magic link</p>
+          <h1
+            className="text-2xl"
+            style={{ fontFamily: 'var(--font-young-serif)', color: 'var(--text)' }}
+          >
+            Sign in to Pakka
+          </h1>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>We&apos;ll email you a magic link</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -59,13 +76,20 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+            className="w-full rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2"
+            style={{
+              border: '1px solid var(--border)',
+              background: 'var(--surface)',
+              color: 'var(--text)',
+              '--tw-ring-color': 'var(--accent)',
+            } as React.CSSProperties}
           />
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p className="text-sm" style={{ color: 'var(--accent)' }}>{error}</p>}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white rounded-lg px-4 py-3 text-sm font-medium disabled:opacity-50"
+            className="w-full rounded-lg px-4 py-3 text-sm font-semibold disabled:opacity-50 transition-colors"
+            style={{ background: 'var(--accent)', color: '#fff' }}
           >
             {loading ? 'Sending…' : 'Send magic link'}
           </button>
