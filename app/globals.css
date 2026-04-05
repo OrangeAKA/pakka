@@ -1,26 +1,59 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg:           #F5F0E8;
+  --surface:      #FDFAF5;
+  --text:         #1C1208;
+  --text-mid:     #5C4A38;
+  --text-muted:   #9C8A78;
+  --text-faint:   #C4B4A4;
+  --accent:       #A81B0A;
+  --accent-hover: #8C1508;
+  --accent-pale:  rgba(168, 27, 10, 0.08);
+  --green:        #2D6A4F;
+  --green-pale:   rgba(45, 106, 79, 0.08);
+  --gold:         #C87D1A;
+  --gold-pale:    rgba(200, 125, 26, 0.08);
+  --border-light: rgba(28, 18, 8, 0.07);
+  --border:       rgba(28, 18, 8, 0.12);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg:         #110D07;
+    --surface:    #1C1510;
+    --text:       #F0EAE0;
+    --text-mid:   #C4A882;
+    --text-muted: #8C7868;
+    --text-faint: #5C4C3C;
+    --accent:     #921710;
+    --accent-hover: #7A1209;
   }
 }
 
+@theme inline {
+  --color-bg:           var(--bg);
+  --color-surface:      var(--surface);
+  --color-text:         var(--text);
+  --color-text-mid:     var(--text-mid);
+  --color-text-muted:   var(--text-muted);
+  --color-text-faint:   var(--text-faint);
+  --color-accent:       var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-pale:  var(--accent-pale);
+  --color-green:        var(--green);
+  --color-green-pale:   var(--green-pale);
+  --color-gold:         var(--gold);
+  --color-gold-pale:    var(--gold-pale);
+  --color-border-light: var(--border-light);
+  --color-border:       var(--border);
+  --font-serif: var(--font-young-serif);
+  --font-sans:  var(--font-plus-jakarta-sans);
+  --font-mono:  var(--font-jetbrains-mono);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
 }
