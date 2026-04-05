@@ -22,10 +22,7 @@ export default function LandingPage() {
 
           <Link
             href="/create"
-            className="inline-block rounded-xl px-8 py-3.5 text-sm font-semibold transition-colors"
-            style={{ background: 'var(--accent)', color: '#fff' }}
-            onMouseOver={e => (e.currentTarget.style.background = 'var(--accent-hover)')}
-            onMouseOut={e => (e.currentTarget.style.background = 'var(--accent)')}
+            className="inline-block bg-accent hover:bg-accent-hover rounded-xl px-8 py-3.5 text-sm font-semibold transition-colors text-white"
           >
             Plan a trip with friends →
           </Link>
@@ -82,10 +79,7 @@ export default function LandingPage() {
           <div className="text-center pt-2">
             <Link
               href="/create"
-              className="inline-block rounded-xl px-8 py-3 text-sm font-semibold transition-colors"
-              style={{ background: 'var(--accent)', color: '#fff' }}
-              onMouseOver={e => (e.currentTarget.style.background = 'var(--accent-hover)')}
-              onMouseOut={e => (e.currentTarget.style.background = 'var(--accent)')}
+              className="inline-block bg-accent hover:bg-accent-hover rounded-xl px-8 py-3 text-sm font-semibold transition-colors text-white"
             >
               Create your first Trip Brief
             </Link>
