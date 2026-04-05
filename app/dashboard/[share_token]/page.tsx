@@ -28,11 +28,10 @@ export default async function DashboardPage({ params }: Props) {
 
   if (!trip) {
     return (
-      <main className="min-h-screen flex items-center justify-center px-4">
+      <main className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--bg)' }}>
         <div className="text-center space-y-2">
-          <p className="text-3xl">🔍</p>
-          <h1 className="text-xl font-semibold">Trip not found</h1>
-          <p className="text-gray-500 text-sm">
+          <h1 className="text-xl" style={{ fontFamily: 'var(--font-young-serif)', color: 'var(--text)' }}>Trip not found</h1>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
             This trip doesn&apos;t exist or you don&apos;t have access to it.
           </p>
         </div>
