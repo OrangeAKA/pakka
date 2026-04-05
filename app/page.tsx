@@ -7,11 +7,14 @@ export default function LandingPage() {
       <section className="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">
         <div className="max-w-md space-y-6">
           <div className="space-y-2">
-            <h1 className="text-4xl font-bold tracking-tight">
+            <h1
+              className="text-4xl leading-tight"
+              style={{ fontFamily: 'var(--font-young-serif)', color: 'var(--text)' }}
+            >
               Stop chasing your group.<br />
-              <span className="text-gray-400">Start planning.</span>
+              <span style={{ color: 'var(--text-muted)' }}>Start planning.</span>
             </h1>
-            <p className="text-gray-500 text-base leading-relaxed">
+            <p className="text-base leading-relaxed" style={{ color: 'var(--text-muted)' }}>
               Create a Trip Brief, share the link on WhatsApp — your group RSVPs in 30 seconds.
               No app install. No more &quot;let me check and get back to you.&quot;
             </p>
@@ -19,19 +22,25 @@ export default function LandingPage() {
 
           <Link
             href="/create"
-            className="inline-block bg-black text-white rounded-xl px-8 py-3.5 text-sm font-medium hover:bg-gray-800 transition-colors"
+            className="inline-block rounded-xl px-8 py-3.5 text-sm font-semibold transition-colors"
+            style={{ background: 'var(--accent)', color: '#fff' }}
+            onMouseOver={e => (e.currentTarget.style.background = 'var(--accent-hover)')}
+            onMouseOut={e => (e.currentTarget.style.background = 'var(--accent)')}
           >
             Plan a trip with friends →
           </Link>
 
-          <p className="text-xs text-gray-400">Free to use. No app needed for your group.</p>
+          <p className="text-xs" style={{ color: 'var(--text-faint)' }}>Free to use. No app needed for your group.</p>
         </div>
       </section>
 
       {/* How it works */}
-      <section className="border-t border-gray-100 bg-gray-50 px-6 py-14">
+      <section
+        className="px-6 py-14"
+        style={{ borderTop: '1px solid var(--border-light)', background: 'var(--surface)' }}
+      >
         <div className="max-w-md mx-auto space-y-8">
-          <h2 className="text-lg font-semibold text-center">How it works</h2>
+          <h2 className="text-lg font-semibold text-center" style={{ color: 'var(--text)' }}>How it works</h2>
           <ol className="space-y-6">
             {[
               {
@@ -56,12 +65,15 @@ export default function LandingPage() {
               },
             ].map(({ step, title, desc }) => (
               <li key={step} className="flex gap-4">
-                <div className="w-7 h-7 rounded-full bg-black text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                <div
+                  className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5"
+                  style={{ background: 'var(--accent)', color: '#fff' }}
+                >
                   {step}
                 </div>
                 <div>
-                  <p className="font-medium text-sm">{title}</p>
-                  <p className="text-gray-500 text-sm mt-0.5">{desc}</p>
+                  <p className="font-semibold text-sm" style={{ color: 'var(--text)' }}>{title}</p>
+                  <p className="text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>{desc}</p>
                 </div>
               </li>
             ))}
@@ -70,7 +82,10 @@ export default function LandingPage() {
           <div className="text-center pt-2">
             <Link
               href="/create"
-              className="inline-block bg-black text-white rounded-xl px-8 py-3 text-sm font-medium hover:bg-gray-800 transition-colors"
+              className="inline-block rounded-xl px-8 py-3 text-sm font-semibold transition-colors"
+              style={{ background: 'var(--accent)', color: '#fff' }}
+              onMouseOver={e => (e.currentTarget.style.background = 'var(--accent-hover)')}
+              onMouseOut={e => (e.currentTarget.style.background = 'var(--accent)')}
             >
               Create your first Trip Brief
             </Link>
@@ -79,8 +94,11 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 px-6 py-6 text-center">
-        <p className="text-xs text-gray-400">Pakka — built for Indian friend groups</p>
+      <footer
+        className="px-6 py-6 text-center"
+        style={{ borderTop: '1px solid var(--border-light)' }}
+      >
+        <p className="text-xs" style={{ color: 'var(--text-faint)' }}>Pakka — built for Indian friend groups</p>
       </footer>
     </main>
   );
