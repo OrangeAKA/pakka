@@ -302,7 +302,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>Your trip</p>
-              <h1 className="text-2xl font-bold" style={{ color: 'var(--text)' }}>{trip.destination}</h1>
+              <h1 className="text-2xl" style={{ fontFamily: 'var(--font-young-serif)', color: 'var(--text)' }}>{trip.destination}</h1>
               <p className="text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>
                 {formatDate(trip.date_from)} – {formatDate(trip.date_to)}
               </p>
