@@ -6,32 +6,25 @@ import { POST } from '@/app/api/rsvps/route';
 // ----------------------------------------------------------------
 const mockTripSelect = vi.fn();
 const mockUpsert = vi.fn();
-const mockCountSelect = vi.fn();
 
-vi.mock('@/lib/supabase/server', () => ({
-  createClient: async () => ({
+vi.mock('@/lib/supabase/admin', () => ({
+  createAdminClient: () => ({
     from: (table: string) => {
       if (table === 'trips') {
         return {
           select: () => ({ eq: () => ({ single: mockTripSelect }) }),
         };
       }
+      // rsvps table — handle both upsert and count select
       return {
         upsert: mockUpsert,
+        select: () => ({
+          eq: () => ({
+            eq: () => Promise.resolve({ count: 3 }),
+          }),
+        }),
       };
     },
-  }),
-}));
-
-vi.mock('@/lib/supabase/admin', () => ({
-  createAdminClient: () => ({
-    from: () => ({
-      select: () => ({
-        eq: () => ({
-          eq: () => Promise.resolve({ count: 3 }),
-        }),
-      }),
-    }),
   }),
 }));
 

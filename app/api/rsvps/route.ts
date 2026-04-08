@@ -1,11 +1,8 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { SubmitRSVPInput, SubmitRSVPResponse } from '@/lib/types';
 
 export async function POST(request: Request) {
-  const supabase = await createClient();
-
   let body: SubmitRSVPInput;
   try {
     body = await request.json();
@@ -27,8 +24,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'invalid budget_tier' }, { status: 400 });
   }
 
+  // Use admin client throughout — RSVP callers are anonymous members (no auth session)
+  const admin = createAdminClient();
+
   // Fetch the trip by share_token
-  const { data: trip, error: tripError } = await supabase
+  const { data: trip, error: tripError } = await admin
     .from('trips')
     .select('id, rsvp_deadline, quorum_target, status')
     .eq('share_token', share_token)
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   }
 
   // Upsert RSVP — idempotent on (trip_id, session_token)
-  const { error: upsertError } = await supabase
+  const { error: upsertError } = await admin
     .from('rsvps')
     .upsert(
       {
@@ -63,11 +63,6 @@ export async function POST(request: Request) {
     console.error('RSVP upsert error:', upsertError);
     return NextResponse.json({ error: 'Failed to save RSVP' }, { status: 500 });
   }
-
-  // Return current 'in' count for the confirmation screen.
-  // Use admin client: the view is restricted to authenticated planners,
-  // but here the caller is an anonymous member.
-  const admin = createAdminClient();
   const { count } = await admin
     .from('rsvps')
     .select('id', { count: 'exact', head: true })
