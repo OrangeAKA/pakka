@@ -13,8 +13,8 @@ function DestinationBriefCard({ brief }: { brief: AIDestinationBrief }) {
     <div
       className="rounded-2xl p-5 space-y-3"
       style={{
-        background: 'linear-gradient(160deg, #FDFAF5 0%, #F8F1E3 100%)',
-        boxShadow: '0 2px 12px rgba(28,18,8,0.06), 0 0 0 1px rgba(28,18,8,0.05)',
+        background: 'var(--surface)',
+        border: '1px solid var(--border-light)',
       }}
     >
       <p className="text-xs text-[var(--text-muted)] uppercase tracking-wide font-semibold">
@@ -184,8 +184,8 @@ export default function BriefClient({
             className="rounded-2xl p-5 space-y-4 animate-fade-in-up"
             style={{
               animationDelay: '80ms',
-              background: 'linear-gradient(160deg, #FDFAF5 0%, #F8F1E3 100%)',
-              boxShadow: '0 2px 16px rgba(28,18,8,0.07), 0 0 0 1px rgba(28,18,8,0.05)',
+              background: 'var(--surface)',
+              border: '1px solid var(--border-light)',
             }}
           >
             <div className="space-y-4 text-base">
