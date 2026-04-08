@@ -52,6 +52,7 @@ export interface RSVP {
   session_token: string;
   response: RSVPResponse;
   budget_tier?: BudgetTier | null;
+  name?: string | null;
   created_at: string;
 }
 
@@ -98,6 +99,7 @@ export interface SubmitRSVPInput {
   session_token: string;
   response: RSVPResponse;
   budget_tier?: BudgetTier | null;
+  name?: string;
 }
 
 export interface SubmitRSVPResponse {
@@ -116,4 +118,7 @@ export interface DashboardData {
   budget_distribution: BudgetDistributionRow[];
   show_budget: boolean;     // false if <3 votes OR group size ≤4 with <3 votes
   ai_budget_note?: string | null;
+  in_names: string[];
+  maybe_names: string[];
+  out_names: string[];
 }
