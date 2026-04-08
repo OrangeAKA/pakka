@@ -48,6 +48,25 @@ export async function GET(
   const budget_distribution: BudgetDistributionRow[] = budgetRows ?? [];
   const show_budget = shouldShowBudget(budget_distribution, trip.quorum_target);
 
-  const payload: DashboardData = { trip, summary, budget_distribution, show_budget };
+  // Fetch RSVP names for the planner view (session tokens are never returned)
+  const { data: rsvpRows } = await supabase
+    .from('rsvps')
+    .select('response, name')
+    .eq('trip_id', trip.id);
+
+  const extractNames = (response: string) =>
+    (rsvpRows ?? [])
+      .filter((r) => r.response === response && r.name)
+      .map((r) => r.name as string);
+
+  const payload: DashboardData = {
+    trip,
+    summary,
+    budget_distribution,
+    show_budget,
+    in_names: extractNames('in'),
+    maybe_names: extractNames('maybe'),
+    out_names: extractNames('out'),
+  };
   return NextResponse.json(payload);
 }

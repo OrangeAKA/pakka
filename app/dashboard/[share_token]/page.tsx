@@ -86,12 +86,26 @@ export default async function DashboardPage({ params }: Props) {
     }
   }
 
+  // Fetch RSVP names for the initial server render
+  const { data: rsvpRows } = await supabase
+    .from('rsvps')
+    .select('response, name')
+    .eq('trip_id', trip.id);
+
+  const extractNames = (response: string) =>
+    (rsvpRows ?? [])
+      .filter((r) => r.response === response && r.name)
+      .map((r) => r.name as string);
+
   const initialData: DashboardData = {
     trip: trip as Trip,
     summary,
     budget_distribution,
     show_budget,
     ai_budget_note,
+    in_names: extractNames('in'),
+    maybe_names: extractNames('maybe'),
+    out_names: extractNames('out'),
   };
 
   return <DashboardClient initialData={initialData} shareToken={share_token} />;

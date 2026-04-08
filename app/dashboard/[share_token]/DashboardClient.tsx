@@ -229,6 +229,21 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Names list helper
+// ─────────────────────────────────────────────────────────────────────────────
+
+function formatInNames(names: string[], totalIn: number): string {
+  const anonCount = totalIn - names.length;
+  const parts = [...names];
+
+  if (anonCount > 0) parts.push(`${anonCount} other${anonCount !== 1 ? 's' : ''}`);
+  if (parts.length === 0) return '';
+  if (parts.length === 1) return `${parts[0]} ${names.length === 1 ? 'is' : 'are'} in`;
+  const last = parts.pop();
+  return `${parts.join(', ')}, and ${last} are in`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Main dashboard
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -244,7 +259,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
   const [copiedWaB, setCopiedWaB] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const { trip, summary, budget_distribution, show_budget } = data;
+  const { trip, summary, budget_distribution, show_budget, in_names = [], maybe_names = [], out_names = [] } = data;
   const timeLeft = useCountdown(trip.rsvp_deadline);
 
   // ── Polling every 30 s ────────────────────────────────────────────────────
@@ -378,6 +393,13 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Out</p>
             </div>
           </div>
+
+          {/* Who's in — names list */}
+          {summary.count_in > 0 && (
+            <p className="text-xs pt-1" style={{ color: 'var(--text-muted)', borderTop: '1px dashed var(--border-light)' }}>
+              {formatInNames(in_names, summary.count_in)}
+            </p>
+          )}
         </div>
 
         {/* Countdown */}
