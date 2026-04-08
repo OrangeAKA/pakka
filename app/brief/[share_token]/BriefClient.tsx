@@ -10,7 +10,13 @@ import { formatDate, formatDeadline, isDeadlinePassed, BUDGET_LABELS } from '@/l
 
 function DestinationBriefCard({ brief }: { brief: AIDestinationBrief }) {
   return (
-    <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border-light)] p-5 space-y-3">
+    <div
+      className="rounded-2xl p-5 space-y-3"
+      style={{
+        background: 'linear-gradient(160deg, #FDFAF5 0%, #F8F1E3 100%)',
+        boxShadow: '0 2px 12px rgba(28,18,8,0.06), 0 0 0 1px rgba(28,18,8,0.05)',
+      }}
+    >
       <p className="text-xs text-[var(--text-muted)] uppercase tracking-wide font-semibold">
         Destination Intel
       </p>
@@ -24,8 +30,8 @@ function DestinationBriefCard({ brief }: { brief: AIDestinationBrief }) {
       </ul>
 
       {brief.confidence === 'low' && (
-        <p className="text-xs text-[var(--text-muted)] border-t border-[var(--border-light)] pt-2">
-          ℹ Less-visited destination — verify travel times independently.
+        <p className="text-xs text-[var(--text-muted)] border-t border-dashed border-[var(--border-light)] pt-2">
+          Less-visited destination — verify travel times independently.
         </p>
       )}
 
@@ -156,7 +162,9 @@ export default function BriefClient({
     return (
       <main className="min-h-screen bg-[var(--bg)] px-4 py-8">
         <div className="max-w-sm mx-auto space-y-5">
-          <div className="space-y-1">
+
+          {/* Header — destination name + dates */}
+          <div className="space-y-1 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
             <p className="text-xs text-[var(--text-muted)] uppercase tracking-wide font-semibold">
               Trip Brief
             </p>
@@ -171,7 +179,15 @@ export default function BriefClient({
             </p>
           </div>
 
-          <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border-light)] p-5 space-y-4">
+          {/* Brief card — invitation feel */}
+          <div
+            className="rounded-2xl p-5 space-y-4 animate-fade-in-up"
+            style={{
+              animationDelay: '80ms',
+              background: 'linear-gradient(160deg, #FDFAF5 0%, #F8F1E3 100%)',
+              boxShadow: '0 2px 16px rgba(28,18,8,0.07), 0 0 0 1px rgba(28,18,8,0.05)',
+            }}
+          >
             <div className="space-y-4 text-base">
               <div className="flex justify-between items-center">
                 <span className="text-[var(--text-muted)]">RSVP by</span>
@@ -196,7 +212,7 @@ export default function BriefClient({
             </div>
 
             {trip.planner_note && (
-              <div className="pt-4 border-t border-[var(--border-light)]">
+              <div className="pt-4 border-t border-dashed border-[var(--border-light)]">
                 <p className="text-xs text-[var(--text-muted)] mb-2 font-semibold uppercase tracking-wide">
                   From the organiser
                 </p>
@@ -207,25 +223,31 @@ export default function BriefClient({
             )}
           </div>
 
+          {/* Destination intelligence card */}
           {trip.ai_destination_brief && (
-            <DestinationBriefCard brief={trip.ai_destination_brief} />
+            <div className="animate-fade-in-up" style={{ animationDelay: '160ms' }}>
+              <DestinationBriefCard brief={trip.ai_destination_brief} />
+            </div>
           )}
 
-          {deadlinePassed ? (
-            <div className="border border-[var(--gold)] bg-[var(--gold-pale)] rounded-xl p-4 text-base text-[var(--gold)] text-center">
-              The RSVP deadline for this trip has passed.
-            </div>
-          ) : (
-            <button
-              onClick={() => setScreen('rsvp')}
-              className="w-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded-xl py-4 text-base font-semibold transition-colors"
-            >
-              {selectedResponse ? 'Update your RSVP' : 'Respond now →'}
-            </button>
-          )}
+          {/* CTA */}
+          <div className="animate-fade-in-up" style={{ animationDelay: '240ms' }}>
+            {deadlinePassed ? (
+              <div className="border border-[var(--gold)] bg-[var(--gold-pale)] rounded-xl p-4 text-base text-[var(--gold)] text-center">
+                The RSVP deadline for this trip has passed.
+              </div>
+            ) : (
+              <button
+                onClick={() => setScreen('rsvp')}
+                className="w-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded-xl py-4 text-base font-semibold transition-colors btn-lift"
+              >
+                {selectedResponse ? 'Update your RSVP' : 'Respond now →'}
+              </button>
+            )}
+          </div>
 
           {selectedResponse && !deadlinePassed && (
-            <p className="text-center text-sm text-[var(--text-muted)]">
+            <p className="text-center text-sm text-[var(--text-muted)] animate-fade-in-up" style={{ animationDelay: '280ms' }}>
               Your current answer:{' '}
               <strong className="text-[var(--text-mid)]">
                 {selectedResponse === 'in'
@@ -238,7 +260,7 @@ export default function BriefClient({
           )}
 
           {(trip.quorum_target - count_in) <= 2 && count_in < trip.quorum_target && !deadlinePassed && (
-            <div className="rounded-xl border border-[var(--gold)] bg-[var(--gold-pale)] p-4 space-y-2">
+            <div className="rounded-xl border border-[var(--gold)] bg-[var(--gold-pale)] p-4 space-y-2 animate-fade-in-up" style={{ animationDelay: '320ms' }}>
               <p className="text-sm font-semibold text-[var(--text-mid)]">
                 Almost there — {trip.quorum_target - count_in} more needed.
               </p>
@@ -273,7 +295,8 @@ export default function BriefClient({
             ← <span className="text-sm">Back</span>
           </button>
 
-          <div className="space-y-0.5">
+          {/* Destination heading */}
+          <div className="space-y-0.5 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
             <h1
               className="text-2xl text-[var(--text)]"
               style={{ fontFamily: 'var(--font-young-serif)' }}
@@ -286,7 +309,7 @@ export default function BriefClient({
           </div>
 
           {/* Are you in? */}
-          <div className="space-y-3">
+          <div className="space-y-3 animate-fade-in-up" style={{ animationDelay: '80ms' }}>
             <p className="text-base font-semibold text-[var(--text)]">Are you in?</p>
             <div className="grid grid-cols-3 gap-3">
               {(
@@ -299,7 +322,7 @@ export default function BriefClient({
                 <button
                   key={value}
                   onClick={() => setSelectedResponse(value)}
-                  className={`flex flex-col items-center gap-2 py-5 rounded-2xl border-2 text-sm font-semibold transition-colors
+                  className={`rsvp-option flex flex-col items-center gap-2 py-5 rounded-2xl border-2 text-sm font-semibold transition-colors
                     ${
                       selectedResponse === value
                         ? 'border-[var(--accent)] bg-[var(--accent)] text-white'
@@ -315,7 +338,7 @@ export default function BriefClient({
 
           {/* Budget vote — only show if "in" or "maybe" */}
           {(selectedResponse === 'in' || selectedResponse === 'maybe') && (
-            <div className="space-y-3">
+            <div className="space-y-3 animate-fade-in-up" style={{ animationDelay: '160ms' }}>
               <div>
                 <p className="text-base font-semibold text-[var(--text)]">
                   Comfortable budget?{' '}
@@ -330,7 +353,7 @@ export default function BriefClient({
                   <button
                     key={tier}
                     onClick={() => setSelectedTier(selectedTier === tier ? null : tier)}
-                    className={`w-full text-left px-4 py-4 rounded-2xl border-2 text-base font-semibold transition-colors
+                    className={`rsvp-option w-full text-left px-4 py-4 rounded-2xl border-2 text-base font-semibold transition-colors
                       ${
                         selectedTier === tier
                           ? 'border-[var(--accent)] bg-[var(--accent)] text-white'
@@ -346,13 +369,15 @@ export default function BriefClient({
 
           {error && <p className="text-[var(--accent)] text-base">{error}</p>}
 
-          <button
-            onClick={handleSubmit}
-            disabled={!selectedResponse || loading || !sessionToken}
-            className="w-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded-2xl py-4 text-base font-semibold disabled:opacity-40 transition-colors"
-          >
-            {loading ? 'Saving…' : "I'm Pakka"}
-          </button>
+          <div className="animate-fade-in-up" style={{ animationDelay: '240ms' }}>
+            <button
+              onClick={handleSubmit}
+              disabled={!selectedResponse || loading || !sessionToken}
+              className="btn-lift w-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] active:shadow-[inset_0_2px_4px_rgba(100,10,4,0.4)] text-white rounded-2xl py-4 text-base font-semibold disabled:opacity-40 transition-colors"
+            >
+              {loading ? 'Saving…' : "I'm Pakka"}
+            </button>
+          </div>
         </div>
       </main>
     );
@@ -363,7 +388,7 @@ export default function BriefClient({
 
   return (
     <main className="min-h-screen bg-[var(--bg)] flex flex-col items-center justify-center px-4 py-8">
-      <div className="max-w-sm w-full">
+      <div className="max-w-sm w-full animate-fade-in-up" style={{ animationDelay: '0ms' }}>
         {isIn ? (
           /* Ticket design for committed RSVP */
           <>
@@ -420,7 +445,7 @@ export default function BriefClient({
               <p className="text-sm text-[var(--text-faint)]">
                 RSVP deadline: {formatDeadline(trip.rsvp_deadline)}
               </p>
-              <div className="pt-1 border-t border-[var(--border-light)]">
+              <div className="pt-1 border-t border-dashed border-[var(--border-light)]">
                 <Link
                   href="/create"
                   className="text-sm text-[var(--text-muted)] hover:text-[var(--text-mid)] transition-colors"
