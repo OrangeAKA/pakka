@@ -32,8 +32,8 @@ export default function LoginPage() {
 
   if (sent) {
     return (
-      <main className="min-h-screen flex items-center justify-center px-4">
-        <div className="max-w-sm w-full text-center space-y-3">
+      <main className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--bg)' }}>
+        <div className="max-w-sm w-full text-center space-y-3 animate-fade-in-up">
           <div
             className="w-12 h-12 rounded-full mx-auto flex items-center justify-center"
             style={{ background: 'var(--accent-pale)' }}
@@ -57,8 +57,8 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-4">
-      <div className="max-w-sm w-full space-y-6">
+    <main className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--bg)' }}>
+      <div className="max-w-sm w-full space-y-6 animate-fade-in-up">
         <div className="text-center space-y-1">
           <h1
             className="text-2xl"
@@ -92,7 +92,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg px-4 py-3 text-sm font-semibold disabled:opacity-50 transition-colors"
+            className="w-full rounded-lg px-4 py-3 text-sm font-semibold disabled:opacity-50 transition-colors btn-lift"
             style={{ background: 'var(--accent)', color: '#fff' }}
           >
             {loading ? 'Sending…' : 'Send magic link'}
