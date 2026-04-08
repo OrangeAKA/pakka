@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { DashboardData, BudgetDistributionRow } from '@/lib/types';
 import { formatDate, formatDeadline, BUDGET_LABELS } from '@/lib/utils';
+import SignOutButton from '@/app/components/SignOutButton';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Countdown hook
@@ -299,6 +300,9 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
 
         {/* Header */}
         <div className="space-y-2 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
+          <div className="flex justify-end">
+            <SignOutButton />
+          </div>
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>Your trip</p>

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import CreateTripForm from './CreateTripForm';
+import SignOutButton from '@/app/components/SignOutButton';
 
 export default async function CreatePage() {
   const supabase = await createClient();
@@ -13,16 +14,19 @@ export default async function CreatePage() {
   return (
     <main className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="space-y-1 animate-fade-in-up">
-          <h1
-            className="text-2xl"
-            style={{ fontFamily: 'var(--font-young-serif)', color: 'var(--text)' }}
-          >
-            Create a Trip Brief
-          </h1>
-          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-            Share the link — your group RSVPs in 30 seconds, no app needed.
-          </p>
+        <div className="flex items-start justify-between animate-fade-in-up">
+          <div className="space-y-1">
+            <h1
+              className="text-2xl"
+              style={{ fontFamily: 'var(--font-young-serif)', color: 'var(--text)' }}
+            >
+              Create a Trip Brief
+            </h1>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              Share the link — your group RSVPs in 30 seconds, no app needed.
+            </p>
+          </div>
+          <SignOutButton />
         </div>
         <div className="animate-fade-in-up" style={{ animationDelay: '60ms' }}>
           <CreateTripForm />
