@@ -314,22 +314,21 @@ export default function BriefClient({
             <div className="grid grid-cols-3 gap-3">
               {(
                 [
-                  { value: 'in' as RSVPResponse, label: "I'm in", emoji: '✅' },
-                  { value: 'out' as RSVPResponse, label: "I'm out", emoji: '❌' },
-                  { value: 'maybe' as RSVPResponse, label: 'Need time', emoji: '🤔' },
+                  { value: 'in' as RSVPResponse, label: "I'm in" },
+                  { value: 'out' as RSVPResponse, label: "I'm out" },
+                  { value: 'maybe' as RSVPResponse, label: 'Need time' },
                 ] as const
-              ).map(({ value, label, emoji }) => (
+              ).map(({ value, label }) => (
                 <button
                   key={value}
                   onClick={() => setSelectedResponse(value)}
-                  className={`rsvp-option flex flex-col items-center gap-2 py-5 rounded-2xl border-2 text-sm font-semibold transition-colors
+                  className={`rsvp-option flex items-center justify-center py-5 rounded-2xl border-2 text-sm font-semibold transition-colors
                     ${
                       selectedResponse === value
                         ? 'border-[var(--accent)] bg-[var(--accent)] text-white'
                         : 'border-[var(--border)] bg-[var(--surface)] text-[var(--text)]'
                     }`}
                 >
-                  <span className="text-2xl">{emoji}</span>
                   {label}
                 </button>
               ))}
@@ -458,8 +457,11 @@ export default function BriefClient({
         ) : (
           /* Simple state for out / maybe */
           <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border-light)] p-8 text-center space-y-4">
-            <div className="text-5xl">
-              {confirmation?.response === 'out' ? '👋' : '⏳'}
+            <div
+              className="text-3xl"
+              style={{ fontFamily: 'var(--font-young-serif)', color: 'var(--text-muted)' }}
+            >
+              {confirmation?.response === 'out' ? 'Out' : 'Maybe'}
             </div>
             <h1
               className="text-2xl text-[var(--text)]"
