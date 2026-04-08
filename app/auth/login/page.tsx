@@ -76,17 +76,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full rounded-lg px-4 py-3 text-sm focus:outline-none"
-            style={{
-              borderWidth: '1px',
-              borderStyle: 'solid',
-              borderColor: 'var(--border)',
-              background: 'var(--surface)',
-              color: 'var(--text)',
-              outline: 'none',
-            }}
-            onFocus={e => (e.currentTarget.style.borderColor = 'var(--accent)')}
-            onBlur={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+            className="form-input"
           />
           {error && <p className="text-sm" style={{ color: 'var(--accent)' }}>{error}</p>}
           <button
