@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
   }
 
-  const { share_token, session_token, response: rsvpResponse, budget_tier } = body;
+  const { share_token, session_token, response: rsvpResponse, budget_tier, name } = body;
 
   if (!share_token || !session_token || !rsvpResponse) {
     return NextResponse.json({ error: 'share_token, session_token, and response are required' }, { status: 400 });
@@ -46,6 +46,9 @@ export async function POST(request: Request) {
     );
   }
 
+  // Sanitise optional name — trim and cap at 50 chars
+  const sanitisedName = name ? name.trim().slice(0, 50) || null : null;
+
   // Upsert RSVP — idempotent on (trip_id, session_token)
   const { error: upsertError } = await admin
     .from('rsvps')
@@ -55,6 +58,7 @@ export async function POST(request: Request) {
         session_token,
         response: rsvpResponse,
         budget_tier: budget_tier ?? null,
+        name: sanitisedName,
       },
       { onConflict: 'trip_id,session_token' },
     );
