@@ -6,28 +6,34 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">
         <div className="max-w-md space-y-6">
-          <div className="space-y-2">
+          <div className="space-y-2 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
             <h1
               className="text-4xl leading-tight"
               style={{ fontFamily: 'var(--font-young-serif)', color: 'var(--text)' }}
             >
-              Stop chasing your group.<br />
-              <span style={{ color: 'var(--text-muted)' }}>Start planning.</span>
+              Your next trip starts here.<br />
+              <span style={{ color: 'var(--text-muted)' }}>Bring everyone along this time.</span>
             </h1>
             <p className="text-base leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-              Create a Trip Brief, share the link on WhatsApp — your group RSVPs in 30 seconds.
-              No app install. No more &quot;let me check and get back to you.&quot;
+              Share a Trip Brief on WhatsApp — your group RSVPs in 30 seconds, no sign-up needed.
+              When your quorum is hit, you know it&apos;s happening.
             </p>
           </div>
 
           <Link
             href="/create"
-            className="inline-block bg-accent hover:bg-accent-hover rounded-xl px-8 py-3.5 text-sm font-semibold transition-colors text-white"
+            className="inline-block btn-lift bg-accent hover:bg-accent-hover rounded-xl px-8 py-3.5 text-sm font-semibold transition-colors text-white animate-fade-in-up"
+            style={{ animationDelay: '80ms' }}
           >
             Plan a trip with friends →
           </Link>
 
-          <p className="text-xs" style={{ color: 'var(--text-faint)' }}>Free to use. No app needed for your group.</p>
+          <p
+            className="text-xs animate-fade-in-up"
+            style={{ color: 'var(--text-faint)', animationDelay: '140ms' }}
+          >
+            Free to use. No app needed for your group.
+          </p>
         </div>
       </section>
 
@@ -37,34 +43,43 @@ export default function LandingPage() {
         style={{ borderTop: '1px solid var(--border-light)', background: 'var(--surface)' }}
       >
         <div className="max-w-md mx-auto space-y-8">
-          <h2 className="text-lg font-semibold text-center" style={{ color: 'var(--text)' }}>How it works</h2>
+          <h2
+            className="text-lg font-semibold text-center animate-fade-in-up"
+            style={{ color: 'var(--text)', animationDelay: '0ms' }}
+          >
+            How it works
+          </h2>
           <ol className="space-y-6">
             {[
               {
                 step: '1',
                 title: 'Create a Trip Brief',
-                desc: 'Set the destination, dates, budget range, and a deadline. Takes 2 minutes.',
+                desc: 'Pick your destination, dates, budget, and how many people you need. Two minutes and you\'re done.',
               },
               {
                 step: '2',
                 title: 'Share the link',
-                desc: 'Paste it in your WhatsApp group. Your friends tap it — no sign-up needed.',
+                desc: 'Drop it in the WhatsApp group. Friends tap and RSVP instantly — no app, no account.',
               },
               {
                 step: '3',
-                title: 'Watch commitments roll in',
-                desc: "Your dashboard shows who's in, the group's budget range, and how many more you need.",
+                title: 'Watch the group come together',
+                desc: "Your dashboard shows who's in, what budget range the group lands on, and how close you are.",
               },
               {
                 step: '4',
-                title: 'Book with confidence',
-                desc: "When your quorum is hit, you'll get notified with booking links. Trip is happening.",
+                title: 'Book when you\'re ready',
+                desc: "Hit your quorum and you'll know. No more guessing — the trip is actually happening.",
               },
-            ].map(({ step, title, desc }) => (
-              <li key={step} className="flex gap-4">
+            ].map(({ step, title, desc }, i) => (
+              <li
+                key={step}
+                className="flex gap-4 animate-fade-in-up"
+                style={{ animationDelay: `${i * 60}ms` }}
+              >
                 <div
                   className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5"
-                  style={{ background: 'var(--accent)', color: '#fff' }}
+                  style={{ border: '2px dashed var(--accent)', color: 'var(--accent)' }}
                 >
                   {step}
                 </div>
@@ -79,9 +94,10 @@ export default function LandingPage() {
           <div className="text-center pt-2">
             <Link
               href="/create"
-              className="inline-block bg-accent hover:bg-accent-hover rounded-xl px-8 py-3 text-sm font-semibold transition-colors text-white"
+              className="inline-block btn-lift bg-accent hover:bg-accent-hover rounded-xl px-8 py-3 text-sm font-semibold transition-colors text-white animate-fade-in-up"
+              style={{ animationDelay: '240ms' }}
             >
-              Create your first Trip Brief
+              Start planning
             </Link>
           </div>
         </div>

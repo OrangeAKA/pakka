@@ -298,7 +298,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
       <div className="max-w-lg mx-auto space-y-5">
 
         {/* Header */}
-        <div className="space-y-2">
+        <div className="space-y-2 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>Your trip</p>
@@ -313,8 +313,8 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
 
         {/* RSVP counts — quorum ring */}
         <div
-          className="rounded-2xl shadow-sm p-5 space-y-4"
-          style={{ background: 'var(--surface)', border: '1px solid var(--border-light)' }}
+          className="rounded-2xl shadow-sm p-5 space-y-4 card-hover animate-fade-in-up"
+          style={{ background: 'var(--surface)', border: '1px solid var(--border-light)', animationDelay: '60ms' }}
         >
           <p className="text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>Committed</p>
 
@@ -330,7 +330,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
           {/* Breakdown */}
           <div
             className="grid grid-cols-3 gap-2 pt-1"
-            style={{ borderTop: '1px solid var(--border-light)' }}
+            style={{ borderTop: '1px dashed var(--border-light)' }}
           >
             <div className="text-center">
               <p className="text-lg font-semibold tabular-nums" style={{ color: 'var(--text)' }}>{summary.count_in}</p>
@@ -349,8 +349,8 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
 
         {/* Countdown */}
         <div
-          className="rounded-2xl shadow-sm p-5"
-          style={{ background: 'var(--surface)', border: '1px solid var(--border-light)' }}
+          className="rounded-2xl shadow-sm p-5 card-hover animate-fade-in-up"
+          style={{ background: 'var(--surface)', border: '1px solid var(--border-light)', animationDelay: '120ms' }}
         >
           {timeLeft ? (
             <div className="space-y-1">
@@ -393,8 +393,8 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
         {/* Budget distribution */}
         {show_budget && budget_distribution.length > 0 && (
           <div
-            className="rounded-2xl shadow-sm p-5 space-y-3"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border-light)' }}
+            className="rounded-2xl shadow-sm p-5 space-y-3 card-hover animate-fade-in-up"
+            style={{ background: 'var(--surface)', border: '1px solid var(--border-light)', animationDelay: '180ms' }}
           >
             <div>
               <p className="text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>Budget votes</p>
@@ -404,7 +404,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
             {budgetNote && (
               <div
                 className="pt-3 space-y-1"
-                style={{ borderTop: '1px solid var(--border-light)' }}
+                style={{ borderTop: '1px dashed var(--border-light)' }}
               >
                 <p className="text-xs leading-relaxed" style={{ color: 'var(--text-mid)' }}>
                   {budgetNote}
@@ -422,8 +422,8 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
         {/* Quorum reached: booking links + WhatsApp copy */}
         {trip.status === 'quorum_reached' && (
           <div
-            className="rounded-2xl p-5 space-y-3"
-            style={{ background: 'var(--green-pale)', border: '1px solid rgba(45,106,79,0.2)' }}
+            className="rounded-2xl p-5 space-y-3 animate-fade-in-up"
+            style={{ background: 'var(--green-pale)', border: '1px solid rgba(45,106,79,0.2)', animationDelay: '180ms' }}
           >
             <div>
               <p className="text-sm font-semibold" style={{ color: 'var(--green)' }}>Your group is ready to book!</p>
@@ -445,7 +445,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
                   <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>Variant A</span>
                   <button
                     onClick={copyWaA}
-                    className="shrink-0 px-3 py-1 rounded-lg text-xs font-medium transition-colors"
+                    className="shrink-0 px-3 py-1 rounded-lg text-xs font-medium transition-colors btn-lift"
                     style={{ background: 'var(--green-pale)', color: 'var(--green)' }}
                   >
                     {copiedWaA ? 'Copied!' : 'Copy'}
@@ -463,7 +463,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
                     <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>Variant B</span>
                     <button
                       onClick={copyWaB}
-                      className="shrink-0 px-3 py-1 rounded-lg text-xs font-medium transition-colors"
+                      className="shrink-0 px-3 py-1 rounded-lg text-xs font-medium transition-colors btn-lift"
                       style={{ background: 'var(--green-pale)', color: 'var(--green)' }}
                     >
                       {copiedWaB ? 'Copied!' : 'Copy'}
@@ -499,8 +499,8 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
 
         {/* Share + nudge */}
         <div
-          className="rounded-2xl shadow-sm p-5 space-y-4"
-          style={{ background: 'var(--surface)', border: '1px solid var(--border-light)' }}
+          className="rounded-2xl shadow-sm p-5 space-y-4 card-hover animate-fade-in-up"
+          style={{ background: 'var(--surface)', border: '1px solid var(--border-light)', animationDelay: '240ms' }}
         >
           <div>
             <p className="text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>Share with your group</p>
@@ -516,7 +516,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
             </div>
             <button
               onClick={copyLink}
-              className="px-4 py-2.5 rounded-lg text-sm font-medium shrink-0 transition-opacity"
+              className="px-4 py-2.5 rounded-lg text-sm font-medium shrink-0 transition-opacity btn-lift"
               style={{ background: 'var(--accent)', color: '#fff' }}
             >
               {copied ? 'Copied!' : 'Copy'}
@@ -541,7 +541,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
                     onClick={async () => {
                       await navigator.clipboard.writeText(nudgeText);
                     }}
-                    className="ml-auto shrink-0 px-3 py-1 rounded-lg text-xs font-medium"
+                    className="ml-auto shrink-0 px-3 py-1 rounded-lg text-xs font-medium btn-lift"
                     style={{ background: 'var(--accent-pale)', color: 'var(--accent)' }}
                   >
                     Copy
@@ -553,7 +553,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full rounded-xl py-3 text-sm font-medium"
+                className="flex items-center justify-center gap-2 w-full rounded-xl py-3 text-sm font-medium btn-lift"
                 style={{ background: '#25D366', color: '#fff' }}
               >
                 <span>💬</span> Send via WhatsApp
@@ -565,8 +565,8 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
         {/* Planner note (if set) */}
         {trip.planner_note && (
           <div
-            className="rounded-2xl shadow-sm p-5 space-y-1"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border-light)' }}
+            className="rounded-2xl shadow-sm p-5 space-y-1 card-hover animate-fade-in-up"
+            style={{ background: 'var(--surface)', border: '1px solid var(--border-light)', animationDelay: '300ms' }}
           >
             <p className="text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>Your note to the group</p>
             <p className="text-sm" style={{ color: 'var(--text-mid)' }}>{trip.planner_note}</p>
