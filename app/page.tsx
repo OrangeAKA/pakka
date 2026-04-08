@@ -44,8 +44,8 @@ export default function LandingPage() {
       >
         <div className="max-w-md mx-auto space-y-8">
           <h2
-            className="text-lg font-semibold text-center animate-fade-in-up"
-            style={{ color: 'var(--text)', animationDelay: '0ms' }}
+            className="text-lg text-center animate-fade-in-up"
+            style={{ fontFamily: 'var(--font-young-serif)', color: 'var(--text)', animationDelay: '0ms' }}
           >
             How it works
           </h2>
@@ -77,10 +77,7 @@ export default function LandingPage() {
                 className="flex gap-4 animate-fade-in-up"
                 style={{ animationDelay: `${i * 60}ms` }}
               >
-                <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5"
-                  style={{ border: '2px dashed var(--accent)', color: 'var(--accent)' }}
-                >
+                <div className="step-postmark shrink-0 mt-0.5">
                   {step}
                 </div>
                 <div>
