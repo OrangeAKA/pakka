@@ -145,6 +145,25 @@ describe('POST /api/rsvps', () => {
     // upsert was called twice — both calls succeed (DB handles dedup)
     expect(mockUpsert).toHaveBeenCalledTimes(2);
   });
+
+  it('accepts RSVP with optional name', async () => {
+    const res = await POST(makeRequest({ ...validBody, name: 'Aashik' }));
+    expect(res.status).toBe(200);
+    expect(mockUpsert).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'Aashik' }),
+      expect.anything(),
+    );
+  });
+
+  it('accepts RSVP without name — anonymous flow still works', async () => {
+    const { budget_tier: _, ...bodyWithoutTier } = validBody;
+    const res = await POST(makeRequest(bodyWithoutTier));
+    expect(res.status).toBe(200);
+    expect(mockUpsert).toHaveBeenCalledWith(
+      expect.objectContaining({ name: null }),
+      expect.anything(),
+    );
+  });
 });
 
 // ----------------------------------------------------------------
