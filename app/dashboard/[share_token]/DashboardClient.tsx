@@ -377,7 +377,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
                   Deadline passed — calculating final count…
                 </p>
               </div>
-              <span className="text-2xl">⏳</span>
+              <span className="text-sm font-semibold" style={{ color: 'var(--gold)' }}>Pending</span>
             </div>
           ) : (
             <div className="flex justify-between items-center">
@@ -385,7 +385,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
                 <p className="text-xs uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>RSVP deadline</p>
                 <p className="text-sm font-medium" style={{ color: 'var(--gold)' }}>{formatDeadline(trip.rsvp_deadline)}</p>
               </div>
-              <span className="text-2xl">⏰</span>
+              <span className="text-sm font-semibold" style={{ color: 'var(--gold)' }}>Ended</span>
             </div>
           )}
         </div>
@@ -482,7 +482,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
                 className="flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-medium transition-colors"
                 style={{ background: 'var(--surface)', border: '1px solid rgba(45,106,79,0.2)', color: 'var(--text)' }}
               >
-                <span>🏠</span> Airbnb
+                Airbnb
               </a>
               <a
                 href={mmtUrl(trip.destination)}
@@ -491,7 +491,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
                 className="flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-medium transition-colors"
                 style={{ background: 'var(--surface)', border: '1px solid rgba(45,106,79,0.2)', color: 'var(--text)' }}
               >
-                <span>✈️</span> MakeMyTrip
+                MakeMyTrip
               </a>
             </div>
           </div>
@@ -556,7 +556,7 @@ export default function DashboardClient({ initialData, shareToken }: Props) {
                 className="flex items-center justify-center gap-2 w-full rounded-xl py-3 text-sm font-medium btn-lift"
                 style={{ background: '#25D366', color: '#fff' }}
               >
-                <span>💬</span> Send via WhatsApp
+                Send via WhatsApp
               </a>
             </div>
           )}
