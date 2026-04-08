@@ -13,7 +13,7 @@ export default async function CreatePage() {
   return (
     <main className="min-h-screen py-10 px-4" style={{ background: 'var(--bg)' }}>
       <div className="max-w-lg mx-auto space-y-6">
-        <div className="space-y-1">
+        <div className="space-y-1 animate-fade-in-up">
           <h1
             className="text-2xl"
             style={{ fontFamily: 'var(--font-young-serif)', color: 'var(--text)' }}
@@ -24,7 +24,9 @@ export default async function CreatePage() {
             Share the link — your group RSVPs in 30 seconds, no app needed.
           </p>
         </div>
-        <CreateTripForm />
+        <div className="animate-fade-in-up" style={{ animationDelay: '60ms' }}>
+          <CreateTripForm />
+        </div>
       </div>
     </main>
   );

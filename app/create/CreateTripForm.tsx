@@ -75,8 +75,8 @@ export default function CreateTripForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-2xl shadow-sm p-5 space-y-5"
-      style={{ background: 'var(--surface)', border: '1px solid var(--border-light)' }}
+      className="rounded-2xl p-5 space-y-5 card-invitation"
+      style={{ border: '1px solid var(--border-light)' }}
     >
       {/* Destination */}
       <div className="space-y-1.5">
@@ -200,7 +200,7 @@ export default function CreateTripForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-xl px-4 py-4 text-base font-semibold disabled:opacity-50 transition-colors"
+        className="w-full rounded-xl px-4 py-4 text-base font-semibold disabled:opacity-50 transition-colors btn-lift"
         style={{ background: 'var(--accent)', color: '#fff' }}
       >
         {loading ? 'Creating…' : 'Create Trip Brief'}
