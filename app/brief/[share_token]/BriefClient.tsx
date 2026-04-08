@@ -433,7 +433,7 @@ export default function BriefClient({
             <div className="bg-[var(--surface)] rounded-b-2xl px-6 pt-5 pb-8 space-y-5">
               <div className="space-y-1.5">
                 <p className="text-[var(--text)] text-lg font-semibold leading-snug">
-                  Pakka ✅ You&apos;re confirmed for {trip.destination}.
+                  Pakka — You&apos;re confirmed for {trip.destination}.
                 </p>
                 {confirmation && (
                   <p className="text-[var(--text-mid)] text-base">
