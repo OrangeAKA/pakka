@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Trip, RSVPResponse, BudgetTier, AIDestinationBrief } from '@/lib/types';
 import { formatDate, formatDeadline, isDeadlinePassed, BUDGET_LABELS } from '@/lib/utils';
+import DotTransition from '@/app/components/DotTransition';
 
 // ─── Destination intelligence card ───────────────────────────────────────────
 
@@ -63,8 +64,11 @@ export default function BriefClient({
 }) {
   const router = useRouter();
   const [screen, setScreen] = useState<Screen>('summary');
+  const [transitioning, setTransitioning] = useState(false);
+  const [nextScreen, setNextScreen] = useState<Screen | null>(null);
   const [selectedResponse, setSelectedResponse] = useState<RSVPResponse | null>(null);
   const [selectedTier, setSelectedTier] = useState<BudgetTier | null>(null);
+  const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [confirmation, setConfirmation] = useState<ConfirmationData | null>(null);
@@ -99,7 +103,7 @@ export default function BriefClient({
     router.replace(`${window.location.pathname}?s=${token}`);
   }, [initialSessionToken, trip.share_token]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Restore prior RSVP selection from localStorage
+  // Restore prior RSVP selection and name from localStorage
   useEffect(() => {
     try {
       const priorResponse = localStorage.getItem(
@@ -108,14 +112,28 @@ export default function BriefClient({
       const priorTier = localStorage.getItem(
         `rsvp_tier_${trip.share_token}`,
       ) as BudgetTier | null;
+      const priorName = localStorage.getItem(`rsvp_name_${trip.share_token}`);
       if (priorResponse) {
         setSelectedResponse(priorResponse);
         setSelectedTier(priorTier);
       }
+      if (priorName) setName(priorName);
     } catch {
       // SecurityError in Safari private browsing
     }
   }, [trip.share_token]);
+
+  // Transition between screens with dot animation
+  function goToScreen(target: Screen) {
+    setNextScreen(target);
+    setTransitioning(true);
+  }
+
+  function handleTransitionComplete() {
+    if (nextScreen) setScreen(nextScreen);
+    setNextScreen(null);
+    setTransitioning(false);
+  }
 
   async function handleSubmit() {
     if (!selectedResponse || !sessionToken) return;
@@ -130,6 +148,7 @@ export default function BriefClient({
         session_token: sessionToken,
         response: selectedResponse,
         budget_tier: selectedTier ?? undefined,
+        name: name.trim() || undefined,
       }),
     });
 
@@ -144,6 +163,7 @@ export default function BriefClient({
     try {
       localStorage.setItem(`rsvp_response_${trip.share_token}`, selectedResponse);
       if (selectedTier) localStorage.setItem(`rsvp_tier_${trip.share_token}`, selectedTier);
+      if (name.trim()) localStorage.setItem(`rsvp_name_${trip.share_token}`, name.trim());
     } catch {
       // SecurityError in Safari private browsing
     }
@@ -153,8 +173,8 @@ export default function BriefClient({
       quorum_target: data.quorum_target,
       response: selectedResponse,
     });
-    setScreen('confirmation');
     setLoading(false);
+    goToScreen('confirmation');
   }
 
   // ─── Screen 1: Summary ───────────────────────────────────────────────────────
@@ -238,7 +258,7 @@ export default function BriefClient({
               </div>
             ) : (
               <button
-                onClick={() => setScreen('rsvp')}
+                onClick={() => goToScreen('rsvp')}
                 className="w-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded-xl py-4 text-base font-semibold transition-colors btn-lift"
               >
                 {selectedResponse ? 'Update your RSVP' : 'Respond now →'}
@@ -306,6 +326,18 @@ export default function BriefClient({
             <p className="text-base text-[var(--text-mid)]">
               {formatDate(trip.date_from)} – {formatDate(trip.date_to)}
             </p>
+          </div>
+
+          {/* Name — optional, at the top of the form */}
+          <div className="animate-fade-in-up" style={{ animationDelay: '60ms' }}>
+            <input
+              type="text"
+              className="form-input w-full"
+              placeholder="First name (optional)"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              maxLength={50}
+            />
           </div>
 
           {/* Are you in? */}
@@ -431,7 +463,7 @@ export default function BriefClient({
             <div className="bg-[var(--surface)] rounded-b-2xl px-6 pt-5 pb-8 space-y-5">
               <div className="space-y-1.5">
                 <p className="text-[var(--text)] text-lg font-semibold leading-snug">
-                  Pakka — You&apos;re confirmed for {trip.destination}.
+                  {confirmation && name.trim() ? `Pakka, ${name.trim()}!` : 'Pakka'} — You&apos;re confirmed for {trip.destination}.
                 </p>
                 {confirmation && (
                   <p className="text-[var(--text-mid)] text-base">
