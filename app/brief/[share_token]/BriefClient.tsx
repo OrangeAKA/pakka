@@ -177,10 +177,16 @@ export default function BriefClient({
     goToScreen('confirmation');
   }
 
+  // ─── Dot transition overlay ──────────────────────────────────────────────────
+  const transitionOverlay = (
+    <DotTransition active={transitioning} onComplete={handleTransitionComplete} />
+  );
+
   // ─── Screen 1: Summary ───────────────────────────────────────────────────────
   if (screen === 'summary') {
     return (
       <main className="min-h-screen bg-[var(--bg)] px-4 py-8">
+        {transitionOverlay}
         <div className="max-w-sm mx-auto space-y-5">
 
           {/* Header — destination name + dates */}
@@ -306,10 +312,11 @@ export default function BriefClient({
   if (screen === 'rsvp') {
     return (
       <main className="min-h-screen bg-[var(--bg)] px-4 py-6">
+        {transitionOverlay}
         <div className="max-w-sm mx-auto space-y-6">
           {/* Back — large tap area */}
           <button
-            onClick={() => setScreen('summary')}
+            onClick={() => goToScreen('summary')}
             className="flex items-center gap-1 text-[var(--text-muted)] py-2 -ml-1 min-h-[44px]"
           >
             ← <span className="text-sm">Back</span>
@@ -419,6 +426,7 @@ export default function BriefClient({
 
   return (
     <main className="min-h-screen bg-[var(--bg)] flex flex-col items-center justify-center px-4 py-8">
+      {transitionOverlay}
       <div className="max-w-sm w-full animate-ticket">
         {isIn ? (
           /* Ticket design for committed RSVP */
@@ -512,7 +520,7 @@ export default function BriefClient({
               RSVP by {formatDeadline(trip.rsvp_deadline)}
             </p>
             <button
-              onClick={() => setScreen('summary')}
+              onClick={() => goToScreen('summary')}
               className="w-full py-4 text-base text-[var(--text-mid)] border border-[var(--border)] rounded-2xl bg-[var(--bg)] transition-colors"
             >
               View trip details
