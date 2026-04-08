@@ -138,6 +138,45 @@
 
 ---
 
+## Interaction & Tone Layer ("Soul Layer")
+
+The design system above defines what Pakka looks like. This section defines how it *feels*. The goal: the app should feel like sitting at a warm kitchen table planning a trip with friends. Comfortable (home) but excited (travel).
+
+### Surface
+
+- **Paper grain texture** on `--bg` background. CSS SVG noise at ~2.5% opacity via `body::before`. Subtle enough to be felt, not seen.
+- **Soft ambient radial gradient** via `body::after`. Barely-there warmth from top center, like afternoon light through a window.
+
+### Objects (travel artifacts on the table)
+
+- **Postmark step numbers** (`.step-postmark`): dashed-border ring with Young Serif number. Passport stamp vibe, not filled circles.
+- **Invitation-style cards** (`.card-invitation`): cream gradient background with faint warmth. Trip Brief card feels like an object you hold.
+- **Dashed separators** (`.divider-dashed`): ticket tear-line language replacing solid borders where appropriate.
+
+### Energy (group excitement)
+
+- **Entrance animations** (`.animate-fade-in-up`): 0.5s ease-out fade + 12px rise. Stagger via inline `animation-delay` (~60ms between elements). Content arrives like laying cards on a table.
+- **Button lift** (`.btn-lift`): `translateY(-1px)` + subtle shadow on hover. Eager, not static.
+- **Embossed CTA** (`.btn-emboss`): inset shadow on hover for the "I'm Pakka" button. Stamping your commitment.
+- **Card hover** (`.card-hover`): subtle 2px lift + shadow on dashboard stat cards.
+- **RSVP option micro-interactions** (`.rsvp-option`): `scale(1.04)` on hover, `scale(0.97)` on press. Choosing feels tactile.
+
+### Copy tone
+
+- Warm and breezy, not corporate or confrontational.
+- Landing: "Your next trip starts here. Bring everyone along this time." — inviting, not demanding.
+- Steps described casually: "Two minutes and you're done", "Drop it in the WhatsApp group".
+- No emojis in the design (functional labels only, no decorative emoji).
+
+### What this layer does NOT include
+
+- No illustrations, stock photos, heavy decoration
+- No topo-line wallpaper (fights the "home" feel)
+- No marketing-page gradients
+- No emojis as design elements
+
+---
+
 ## Decisions Log
 
 | Date | Decision | Rationale |
@@ -149,3 +188,4 @@
 | 2026-04-05 | "I'm Pakka" button copy | Brand as verb. The non-registered RSVP experience is the most-seen screen in the product — make it own the brand. |
 | 2026-04-05 | Ticket-style confirmation | Post-RSVP screen styled as a printed ticket with perforation, stamp, and crimson top. Makes commitment feel physical and irreversible — which is the whole product's point. |
 | 2026-04-05 | Initial design system | Created via /design-consultation. Research: Doodle, Luma, Splitwise visual benchmarks. Outside voice: Claude subagent. Both converged on warm cream + red accent independently. |
+| 2026-04-08 | Soul layer (interaction + tone) | Three layers added: surface (paper grain, ambient gradient), objects (postmark steps, invitation cards, dashed separators), energy (entrance animations, button lift, RSVP micro-interactions). Metaphor: "the planning table." |
