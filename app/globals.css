@@ -67,7 +67,7 @@ body::before {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.025;
+  opacity: 0.018;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
@@ -80,7 +80,7 @@ body::after {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200, 180, 150, 0.06), transparent 70%);
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200, 180, 150, 0.04), transparent 70%);
 }
 
 /* Ensure body children sit above the pseudo-elements */
@@ -150,10 +150,10 @@ body > * {
   transform: scale(0.97);
 }
 
-/* Invitation-style card — cream gradient with faint warmth */
+/* Invitation-style card — clean surface, subtle border, no gradient */
 .card-invitation {
-  background: linear-gradient(165deg, var(--surface) 0%, #FAF5EC 100%);
-  box-shadow: 0 1px 3px rgba(28, 18, 8, 0.05);
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgba(28, 18, 8, 0.04);
 }
 
 /* Postmark step number — dashed-border ring, passport stamp vibe */
