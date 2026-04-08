@@ -54,6 +54,25 @@ function mmtUrl(destination: string) {
 // Quorum ring
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Count-up hook — number climbs from 0 to target
+function useCountUp(target: number, duration = 800) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (target === 0) return;
+    const start = performance.now();
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }, [target, duration]);
+  return value;
+}
+
 function QuorumRing({
   progress,
   countIn,
@@ -71,10 +90,20 @@ function QuorumRing({
   const circumference = 2 * Math.PI * r;
   const offset = circumference * (1 - progress / 100);
   const strokeColor = isQuorumReached ? 'var(--green)' : 'var(--accent)';
+  const displayCount = useCountUp(countIn);
+
+  // Pulse when 1-2 away from quorum
+  const isNearQuorum = !isQuorumReached && countIn > 0 && (quorumTarget - countIn) <= 2;
 
   return (
     <div className="flex flex-col items-center gap-1">
-      <svg width="160" height="160" viewBox="0 0 160 160" aria-label={`${countIn} of ${quorumTarget} committed`}>
+      <svg
+        width="160"
+        height="160"
+        viewBox="0 0 160 160"
+        aria-label={`${countIn} of ${quorumTarget} committed`}
+        className={isNearQuorum ? 'ring-pulse' : ''}
+      >
         {/* Track */}
         <circle
           cx={cx}
@@ -101,7 +130,7 @@ function QuorumRing({
             transition: 'stroke-dashoffset 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), stroke 0.4s ease-out',
           }}
         />
-        {/* Hero stat — count_in in Young Serif */}
+        {/* Hero stat — count_in counts up from 0 */}
         <text
           x={cx}
           y={cy - 6}
@@ -113,7 +142,7 @@ function QuorumRing({
             fill: 'var(--text)',
           }}
         >
-          {countIn}
+          {displayCount}
         </text>
         {/* Sub label */}
         <text

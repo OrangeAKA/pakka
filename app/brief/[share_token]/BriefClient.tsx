@@ -179,9 +179,9 @@ export default function BriefClient({
             </p>
           </div>
 
-          {/* Brief card — invitation feel */}
+          {/* Brief card — invitation feel, breathing */}
           <div
-            className="rounded-2xl p-5 space-y-4 animate-fade-in-up"
+            className="rounded-2xl p-5 space-y-4 animate-fade-in-up card-breathe"
             style={{
               animationDelay: '80ms',
               background: 'var(--surface)',
@@ -387,16 +387,15 @@ export default function BriefClient({
 
   return (
     <main className="min-h-screen bg-[var(--bg)] flex flex-col items-center justify-center px-4 py-8">
-      <div className="max-w-sm w-full animate-fade-in-up" style={{ animationDelay: '0ms' }}>
+      <div className="max-w-sm w-full animate-ticket">
         {isIn ? (
           /* Ticket design for committed RSVP */
           <>
             {/* Crimson top half */}
             <div className="bg-[var(--accent)] rounded-t-2xl px-6 pt-8 pb-6 relative">
-              {/* PAKKA stamp — slight rotation, bordered */}
+              {/* PAKKA stamp — spring-in with rotation */}
               <div
-                className="absolute top-5 right-5 border-[3px] border-white/70 rounded px-2.5 py-1"
-                style={{ transform: 'rotate(-5deg)' }}
+                className="absolute top-5 right-5 border-[3px] border-white/70 rounded px-2.5 py-1 animate-stamp"
               >
                 <span className="text-white text-sm font-bold tracking-[0.2em]">PAKKA</span>
               </div>

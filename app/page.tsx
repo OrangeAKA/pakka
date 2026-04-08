@@ -1,11 +1,40 @@
 import Link from 'next/link';
 
+function RouteLine() {
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      viewBox="0 0 400 500"
+      fill="none"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+    >
+      {/* A wandering dotted route line — like a path on a hand-drawn map */}
+      <path
+        d="M -20 80 C 60 120, 140 40, 200 100 S 340 60, 380 140 S 280 200, 320 260 S 420 300, 380 380 S 200 420, 240 500"
+        stroke="var(--text-faint)"
+        strokeWidth="1.5"
+        strokeDasharray="6 8"
+        strokeLinecap="round"
+        opacity="0.35"
+        pathLength="1"
+        className="animate-route-draw"
+      />
+      {/* Small waypoint dots along the route */}
+      <circle cx="200" cy="100" r="3" fill="var(--accent)" opacity="0" className="animate-fade-in-up" style={{ animationDelay: '1.2s' }} />
+      <circle cx="320" cy="260" r="3" fill="var(--accent)" opacity="0" className="animate-fade-in-up" style={{ animationDelay: '1.8s' }} />
+      <circle cx="240" cy="500" r="3" fill="var(--accent)" opacity="0" className="animate-fade-in-up" style={{ animationDelay: '2.4s' }} />
+    </svg>
+  );
+}
+
 export default function LandingPage() {
   return (
     <main className="min-h-screen flex flex-col">
       {/* Hero */}
-      <section className="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">
-        <div className="max-w-md space-y-6">
+      <section className="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center relative overflow-hidden">
+        <RouteLine />
+        <div className="max-w-md space-y-6 relative z-10">
           <div className="space-y-2 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
             <h1
               className="text-4xl leading-tight"
