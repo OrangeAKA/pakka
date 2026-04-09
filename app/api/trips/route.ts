@@ -149,24 +149,23 @@ export async function POST(request: Request) {
     ).catch((err) => console.error('Trip created email failed:', err));
   }
 
-  // Fire parallel Groq calls and persist results — non-fatal
-  ;(async () => {
-    try {
-      const [brief, messages] = await Promise.all([
-        generateDestinationBrief(destination.trim(), date_from, date_to),
-        generateWhatsAppMessages(
-          destination.trim(),
-          date_from,
-          date_to,
-          shareUrl,
-          quorum_target,
-          planner_note?.trim(),
-          rsvp_deadline,
-        ),
-      ]);
+  // Run AI calls before responding — Vercel freezes the function after response,
+  // so fire-and-forget IIFEs silently fail. Groq is fast (~1-2s).
+  try {
+    const [brief, messages] = await Promise.all([
+      generateDestinationBrief(destination.trim(), date_from, date_to),
+      generateWhatsAppMessages(
+        destination.trim(),
+        date_from,
+        date_to,
+        shareUrl,
+        quorum_target,
+        planner_note?.trim(),
+        rsvp_deadline,
+      ),
+    ]);
 
-      if (!brief && !messages) return;
-
+    if (brief || messages) {
       const admin = createAdminClient();
       await admin
         .from('trips')
@@ -181,10 +180,11 @@ export async function POST(request: Request) {
           ...(messages ? { ai_whatsapp_messages: messages } : {}),
         })
         .eq('id', trip.id);
-    } catch (err) {
-      console.error('AI generation failed:', err);
     }
-  })();
+  } catch (err) {
+    console.error('AI generation failed:', err);
+    // Non-fatal — trip is already created, AI features degrade gracefully
+  }
 
   return NextResponse.json(response, { status: 201 });
 }
