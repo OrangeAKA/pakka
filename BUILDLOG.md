@@ -1,8 +1,10 @@
 # Pakka — Build Log & Context
 
-**Last updated:** 2026-04-05  
-**Test status:** 55 pass, 2 skip, 0 fail  
-**Design docs:** `~/.gstack/projects/Interviews/`
+**Last updated:** 2026-04-09  
+**Test status:** 57 pass, 2 skip, 0 fail  
+**Design docs:** `~/.gstack/projects/Interviews/`  
+**Deployed:** pakka.space (Vercel + Supabase hosted)  
+**Repo:** github.com/OrangeAKA/pakka (public)
 
 ---
 
@@ -135,11 +137,39 @@ trip_budget_distribution -- budget_tier, count per trip
 
 ---
 
+## Session: 2026-04-08/09 — Deployment + Soul Layer + Fixes
+
+### What got done
+1. **Soul layer implemented** — paper grain texture, ambient gradient, entrance animations, postmark steps, invitation cards, RSVP micro-interactions, warm copy rewrite. All documented in DESIGN.md.
+2. **Dynamism layer** — animated route line on landing, count-up quorum counter, PAKKA stamp spring animation, ring pulse near quorum, slow ambient warmth shift, dot field transition between RSVP screens.
+3. **Deployed to production** — Vercel + Supabase hosted. Repo pushed to github.com/OrangeAKA/pakka.
+4. **Auth flow fixed** — Supabase redirect URL config was missing `/auth/callback`. Fixed.
+5. **RSVP upsert fixed** — anonymous visitors were blocked by RLS. Switched to admin client.
+6. **AI layer fixed** — fire-and-forget IIFE was dying on Vercel (function frozen after response). Now awaits AI calls before responding.
+7. **Form UX overhaul** — `.form-input` class with visible borders, separate date+time pickers for RSVP deadline, smart default (7 days at 9 PM).
+8. **Optional name on RSVP** — name field added to RSVP form, shown on planner dashboard ("Aashik, Ramya, and 1 other are in"). Schema migration needed on hosted Supabase.
+9. **Sign out button** — added to create and dashboard pages.
+10. **Email setup** — Resend configured as Supabase SMTP provider via `communication.pakka.space`. Domain: Porkbun.
+11. **Emoji cleanup** — removed all emoji from UI per DESIGN.md.
+
+### Known issues / next actions
+- **Run RSVP name migration on hosted Supabase** — `ALTER TABLE rsvps ADD COLUMN name TEXT;` (or check supabase/migrations/ for the file the other instance generated)
+- **Verify AI layer end-to-end** — create a new trip on production after the Vercel redeploy, check that `ai_destination_brief` and `ai_whatsapp_messages` are populated
+- **DNS: pakka.space** — was resolving from browser but not from CLI during this session. Verify Porkbun DNS records are propagated.
+- **Supabase email rate limit** — free tier is 2/hour. Resend SMTP configured to bypass this, but sender domain must be `communication.pakka.space` not `pakka.space`
+- **GTM seeding** — onboard Aashik, Ramya, and 3 other interview subjects. Goal: first 5 real trips
+
+### What NOT to build yet
+- V2 features (multi-destination voting, deposits, phone OTP) — wait for quorum hit rate data from first 5 real trips
+
+---
+
 ## What to Do Next
 
-**Immediate (before any new features):**
-1. Deploy to Supabase hosted + Vercel. Run schema migrations in hosted Supabase. Configure env vars (`GROQ_API_KEY`, `RESEND_API_KEY`, `TWILIO_*`, `NEXT_PUBLIC_APP_URL`).
-2. GTM seeding: personally onboard Aashik, Ramya, and 3 other interview subjects. Goal: first 5 real trips created, get quorum hit rate data.
+**Immediate:**
+1. Run the RSVP name migration on hosted Supabase
+2. Create a test trip on production, verify AI features populate (destination card on brief page, WhatsApp variants on dashboard)
+3. GTM seeding: personally onboard Aashik, Ramya, and 3 other interview subjects. Goal: first 5 real trips created, get quorum hit rate data.
 
 **After first 5 real trips:**
 - Review: are people actually copying and using the WhatsApp messages? (proxy: time-to-first-RSVP after creation)
@@ -155,45 +185,57 @@ trip_budget_distribution -- budget_tier, count per trip
 
 ```
 app/
-  api/trips/route.ts          — POST handler, fires AI calls after INSERT
-  api/rsvps/route.ts          — RSVP upsert, must stay AI-free
+  api/trips/route.ts          — POST handler, awaits AI calls then responds
+  api/rsvps/route.ts          — RSVP upsert (admin client, supports optional name)
+  api/dashboard/[share_token]/ — dashboard data API (includes RSVP names)
   brief/[share_token]/
     page.tsx                  — fetches trip + count_in, passes to client
-    BriefClient.tsx           — destination card + near-quorum nudge (Screen 1)
+    BriefClient.tsx           — destination card, RSVP flow (3 screens), dot transition
   dashboard/[share_token]/
     page.tsx                  — lazy budget note trigger on load
-    DashboardClient.tsx       — WhatsApp variants + budget note display
+    DashboardClient.tsx       — quorum ring + count-up, WhatsApp variants, names list
   create/
-    CreateTripForm.tsx        — trip creation form
+    CreateTripForm.tsx        — trip creation form (.form-input, date+time pickers)
+  components/
+    SignOutButton.tsx          — shared sign-out button
+    DotTransition.tsx          — dot field transition animation
 
 lib/
   ai.ts                       — all Groq helpers (sanitize, parse, generate*)
   types.ts                    — Trip, AIDestinationBrief, AIWhatsAppMessages, etc.
   utils.ts                    — formatDate, formatDeadline, BUDGET_LABELS, etc.
+  supabase/admin.ts           — service-role client (bypasses RLS)
 
 tests/
   trips.test.ts               — trip creation + AI failure paths
-  rsvps.test.ts               — RSVP submission + AI cleanliness
+  rsvps.test.ts               — RSVP submission + name field + AI cleanliness
   lib/ai.test.ts              — unit tests for sanitizeForPrompt, parseAIResponse
   api/ai-integration.test.ts  — real Groq calls (skipped without GROQ_API_KEY)
 
 supabase/functions/check-quorum/ — Edge Function cron (quorum detection + notifications)
-
-~/.gstack/projects/Interviews/
-  krishnaakhil-unknown-design-20260405-011851.md  — AI layer design doc (READY TO BUILD, done)
-  krishnaakhil-unknown-design-20260405-003550.md  — original MVP design doc
-  krishnaakhil-unknown-eng-plan-20260405.md       — engineering plan
 ```
+
+---
+
+## Key Decisions (this session)
+
+| Decision | Rationale |
+|----------|-----------|
+| Await AI calls instead of fire-and-forget | Vercel freezes serverless functions after response. IIFE was silently dying. ~1-2s added to trip creation is acceptable. |
+| Admin client for RSVP route | Anonymous visitors have no auth session. RLS blocks insert/select. All validation is in application code. |
+| Optional name on RSVP, not required | Zero friction for members. Planners get names on dashboard. Anonymous still works. |
+| Resend as Supabase SMTP | Bypasses Supabase free tier 2/hour email limit. Sender: communication.pakka.space |
+| Separate date+time pickers | datetime-local was confusing on mobile. Split inputs + 7-day default makes it obvious. |
+| Dot transition between RSVP screens | Gives personality without slowing down. 700ms, 18 dots converge. Not a spinner. |
 
 ---
 
 ## How to Think About the Next Build Session
 
-The product is feature-complete for MVP + V1. The next unlock is **real user data**, not more features. Resist the urge to build V2 before the first 5 real trips have completed.
+The product is feature-complete for MVP + V1 + soul layer + dynamism. The next unlock is **real user data**, not more features.
 
 When resuming a build session, check:
-1. `bun test` — must be 55 pass (or more if tests were added), 0 fail
-2. Any pending schema migrations for Supabase hosted?
-3. Is the site live at `pakka.space`?
-
-The model for building new features: design doc in `~/.gstack/projects/Interviews/` → CEO review → spawn Claude Code instances by lane (backend, frontend, tests). Tests go last and should use real Groq for happy-path integration, mocks only for failure paths and unit logic.
+1. `bun test` — must be 57 pass (or more if tests were added), 0 fail
+2. Is the RSVP name migration applied on hosted Supabase?
+3. Create a test trip — do AI features populate?
+4. Is the site live at `pakka.space`?
